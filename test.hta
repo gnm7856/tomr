@@ -1,0 +1,22 @@
+<html>
+<head>
+  <title>HTA Test</title>
+  <HTA:APPLICATION 
+    ID="htaTest"
+    APPLICATIONNAME="HTA Example"
+    BORDER="thin"
+    BORDERSTYLE="normal"
+    CAPTION="yes"
+    SHOWINTASKBAR="yes"
+    SINGLEINSTANCE="yes"
+    SYSMENU="yes"
+    WINDOWSTATE="normal">
+</head>
+<script language="vbscript">
+  MsgBox "HTA is running with full privileges!", vbInformation, "HTA Test"
+</script>
+<body>
+  <h1>HTA Demo Running</h1>
+  <p>If you see this, mshta.exe has executed this file successfully.</p>
+</body>
+</html>
